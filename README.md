@@ -38,7 +38,7 @@ New Feed Selection:
 
 ## Screenshot of the Tests Passed
 
-  ![Test](screenshots/test.PNG)
+  ![Test](screenshot/test.PNG)
 
 
 ## Technologies Used
