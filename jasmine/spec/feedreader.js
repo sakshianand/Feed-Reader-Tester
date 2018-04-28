@@ -24,14 +24,15 @@ $(function() {
         });
 
         /* This test loops through each feed in the allFeeds object and ensures it has a URL defined
-         * and that the URL is not empty.Also checks if the characters in URL is less than 10
+         * and that the URL is not empty.Also checks if the characters in URL is less than 10 and the urlis valid
          */
          it('URL is defined and is not empty and valid',function() {
-           allFeeds.forEach(function(feed){
+           for(const feed of allFeeds){
                 expect(feed.url).toBeDefined();
                 expect(feed.url.length).not.toBe(0);
                 expect(feed.url.length).not.toBeLessThan(10);
-           });
+                expect(feed.url).toMatch(/^http(s?)\:\/\//);
+           };
          });
 
         /* This test test that loops through each feed in the allFeeds object and ensures it has a name defined
@@ -80,25 +81,30 @@ $(function() {
          });
 
          it('There should be atleast one feed',function() {
-            expect($('.feed .entry-link').length).not.toBe(0);
+            expect($('.feed .entry').length).not.toBe(0);
          });
     });
 
 
     /* Test suite named "New Feed Selection" */
     describe('New Feed Selection',function() {
-        var old;
+        var old,n;
         beforeEach(function(done) {
-            loadFeed(0,done);
-             old = $('.entry')[0].innerText;
-            loadFeed(1,done);
+            loadFeed(0,function() {
+        // feed 0 done loading, do stuff with feed 0
+                old = $('.feed').text();
+                loadFeed(1,function(){
+                    n = $('.feed').text();
+                   done(); 
+            });   
         });
+     });
 
          /* This test ensures that when a new feed is loaded
          * by the loadFeed function the content actually changes.
          */
         it('The content changes when new feed is loaded',function() {
-            expect($('.entry').innerText).not.toBe(old);
+            expect(n).not.toBe(old);
         });
     });
        
